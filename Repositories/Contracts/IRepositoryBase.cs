@@ -1,4 +1,4 @@
-﻿namespace WebApi.Repositories.Contracts
+﻿namespace Repositories.Contracts
 {
     public interface IRepositoryBase<TEntity>
     {

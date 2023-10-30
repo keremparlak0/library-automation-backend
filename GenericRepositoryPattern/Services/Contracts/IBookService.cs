@@ -1,5 +1,6 @@
-﻿using WebApi.Models.DTOs;
-using WebApi.Models.Entities;
+﻿
+using Models.DTOs;
+using Models.Entities;
 
 namespace WebApi.Services.Contracts
 {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.Entities;
-using WebApi.Repositories.Contracts;
+using Repositories.Contracts;
 
-namespace WebApi.Repositories
+namespace Repositories
 {
     public class BookRepository : RepositoryBase<Book>, IBookRepository
     {

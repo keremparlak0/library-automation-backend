@@ -1,7 +1,6 @@
-﻿
-using Models.Entities;
+﻿using Models.Entities;
 
-namespace WebApi.Repositories.Contracts
+namespace Repositories.Contracts
 {
     public interface IBookRepository : IRepositoryBase<Book>
     {

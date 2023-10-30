@@ -1,6 +1,6 @@
-﻿using WebApi.Models.Abstract;
+﻿using Models.Entities.Contracts;
 
-namespace WebApi.Models.Entities
+namespace Models.Entities
 {
     public class BaseEntity : IEntity
     {

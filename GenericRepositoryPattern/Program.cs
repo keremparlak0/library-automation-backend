@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using WebApi.Models;
 using WebApi.Repositories;
 using WebApi.Repositories.Contracts;
 using AutoMapper.Configuration;
@@ -8,6 +7,7 @@ using WebApi.Extensions;
 using Microsoft.Extensions.Configuration;
 using WebApi.Services.Contracts;
 using WebApi.Services;
+using Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"),
+    b => b.MigrationsAssembly("WebApi")));
 
 builder.Services.AddCors(option =>
 {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
-using WebApi.Models.DTOs;
-using WebApi.Models.Entities;
+using Models.DTOs;
+using Models.Entities;
 using WebApi.Repositories.Contracts;
 using WebApi.Services.Contracts;
 
