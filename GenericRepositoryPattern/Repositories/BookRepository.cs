@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 using WebApi.Models.Entities;
-using WebApi.Repositories.Abstract;
+using WebApi.Repositories.Contracts;
 
 namespace WebApi.Repositories
 {
-    public class BookRepository : GenericRepository<Book>, IBookRepository
+    public class BookRepository : RepositoryBase<Book>, IBookRepository
     {
         public BookRepository(AppDbContext context) : base(context)
         {

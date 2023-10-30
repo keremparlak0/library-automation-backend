@@ -12,7 +12,7 @@ using WebApi.Models;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231013062715_init")]
+    [Migration("20231018071330_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -47,6 +47,15 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Author = "Kafka",
+                            CratedAt = new DateTime(2023, 10, 18, 10, 13, 30, 303, DateTimeKind.Local).AddTicks(9988),
+                            Name = "Donusum"
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Models.Entities.Product", b =>
@@ -71,6 +80,22 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CratedAt = new DateTime(2023, 10, 18, 10, 13, 30, 304, DateTimeKind.Local).AddTicks(291),
+                            Description = "High-end laptop with 4K display",
+                            Type = "Electronics"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CratedAt = new DateTime(2023, 10, 18, 10, 13, 30, 304, DateTimeKind.Local).AddTicks(302),
+                            Description = "Men's leather jacket in black",
+                            Type = "Clothing"
+                        });
                 });
 #pragma warning restore 612, 618
         }

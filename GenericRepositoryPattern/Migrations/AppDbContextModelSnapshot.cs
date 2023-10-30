@@ -44,6 +44,15 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Author = "Kafka",
+                            CratedAt = new DateTime(2023, 10, 30, 11, 26, 38, 570, DateTimeKind.Local).AddTicks(3607),
+                            Name = "Donusum"
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Models.Entities.Product", b =>
@@ -68,6 +77,22 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CratedAt = new DateTime(2023, 10, 30, 11, 26, 38, 570, DateTimeKind.Local).AddTicks(3725),
+                            Description = "High-end laptop with 4K display",
+                            Type = "Electronics"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CratedAt = new DateTime(2023, 10, 30, 11, 26, 38, 570, DateTimeKind.Local).AddTicks(3727),
+                            Description = "Men's leather jacket in black",
+                            Type = "Clothing"
+                        });
                 });
 #pragma warning restore 612, 618
         }

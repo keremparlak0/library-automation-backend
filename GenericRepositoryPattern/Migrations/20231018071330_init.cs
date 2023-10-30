@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
@@ -39,6 +41,20 @@ namespace WebApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "Author", "CratedAt", "Name" },
+                values: new object[] { 1, "Kafka", new DateTime(2023, 10, 18, 10, 13, 30, 303, DateTimeKind.Local).AddTicks(9988), "Donusum" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CratedAt", "Description", "Type" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 10, 18, 10, 13, 30, 304, DateTimeKind.Local).AddTicks(291), "High-end laptop with 4K display", "Electronics" },
+                    { 2, new DateTime(2023, 10, 18, 10, 13, 30, 304, DateTimeKind.Local).AddTicks(302), "Men's leather jacket in black", "Clothing" }
                 });
         }
 
