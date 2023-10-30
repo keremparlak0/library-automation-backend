@@ -3,11 +3,11 @@ using Microsoft.Extensions.Logging;
 using AutoMapper.Configuration;
 using WebApi.Extensions;
 using Microsoft.Extensions.Configuration;
-using WebApi.Services.Contracts;
-using WebApi.Services;
 using Models;
 using Repositories.Contracts;
 using Repositories;
+using Services.Contracts;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
