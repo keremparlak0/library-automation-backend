@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Models.DTOs;
 using Models.Entities;
-using WebApi.Repositories.Contracts;
+using Repositories.Contracts;
 using WebApi.Services.Contracts;
 
 namespace WebApi.Services

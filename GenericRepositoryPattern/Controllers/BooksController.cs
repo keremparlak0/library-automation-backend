@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models.DTOs;
-using WebApi.Repositories.Contracts;
 using WebApi.Services.Contracts;
 
 namespace WebApi.Controllers

@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApi.Repositories.Contracts;
-using WebApi.Repositories;
 namespace WebApi.Extensions
 {
     public static class ServicesExtensions

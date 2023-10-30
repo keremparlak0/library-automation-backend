@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using WebApi.Repositories;
-using WebApi.Repositories.Contracts;
 using AutoMapper.Configuration;
 using WebApi.Extensions;
 using Microsoft.Extensions.Configuration;
 using WebApi.Services.Contracts;
 using WebApi.Services;
 using Models;
+using Repositories.Contracts;
+using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
