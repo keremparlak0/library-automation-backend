@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Models.DTOs;
 using Services.Contracts;
 
@@ -11,66 +9,41 @@ namespace API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookService _service;
-        private readonly IMapper _mapper;
+        private readonly ILogger<BooksController> _logger;
 
-        public BooksController(IBookService service, IMapper mapper)
+        public BooksController(IBookService service, ILogger<BooksController> logger)
         {
             _service = service;
-            _mapper = mapper;
+            _logger = logger;
+            _logger.LogDebug(1, "NLog injected into BooksController");
         }
 
         [HttpGet]
         public IActionResult GetAllBooks()
         {
-            try
-            {
-                return Ok(_service.GetAllBooks());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            _logger.LogInformation("GetAllBooks method is logged.");
+            return Ok(_service.GetAllBooks());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {
-            try
-            {
-                return Ok(_service.GetBookByIdAsync(id));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            return Ok(_service.GetBookByIdAsync(id));
         }
 
         //[HttpGet("first")]
         //public async Task<string> GetFirstBookName()
         //{
-        //    try
-        //    {
         //        var bookName = await _service.
         //        return bookName;
-        //    }
-        //    catch (Exception ex)
-        //    {
         //        throw new Exception(ex.Message);
-        //    }
         //}
 
         [HttpPost]
         public async Task<IActionResult> CreateBook([FromBody] BookCreateDto bookCreateDto)
         {
-            try
-            {
-                _service.CreateBookAsync(bookCreateDto);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _service.CreateBookAsync(bookCreateDto);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -83,15 +56,8 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook([FromRoute] int id)
         {
-            try
-            {
-                await _service.DeleteBookAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            await _service.DeleteBookAsync(id);
+            return NoContent();
         }
     }
 }
