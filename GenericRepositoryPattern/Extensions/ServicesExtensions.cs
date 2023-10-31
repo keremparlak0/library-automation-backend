@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Repositories;
+using Repositories.Contracts;
+using Services;
+using Services.Contracts;
+
 namespace WebApi.Extensions
 {
     public static class ServicesExtensions
     {
-        public static void ConfigureSqlContext(this IServiceCollection services,
-           IConfiguration configuration) => services.AddDbContext<DbContext>(options =>
-                   options.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
         public static void ConfigureCors(this IServiceCollection services)
         {
             services.AddCors(option =>
@@ -26,11 +27,11 @@ namespace WebApi.Extensions
         }
         public static void IoC(this IServiceCollection services)
         {
-           // services.AddScoped<IBookRepository, BookRepository>();
-            //services.AddScoped<IBookService, BookManager>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IBookService, BookService>();
         }
-        
-            
+
+
 
     }
 }
