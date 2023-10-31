@@ -28,7 +28,8 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {
-            return Ok(_service.GetBookByIdAsync(id));
+            var book = _service.GetBookByIdAsync(id);
+            return Ok(book);
         }
 
         //[HttpGet("first")]
@@ -36,7 +37,6 @@ namespace API.Controllers
         //{
         //        var bookName = await _service.
         //        return bookName;
-        //        throw new Exception(ex.Message);
         //}
 
         [HttpPost]

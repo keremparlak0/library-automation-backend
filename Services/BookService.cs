@@ -2,8 +2,10 @@
 using Microsoft.Extensions.Logging;
 using Models.DTOs;
 using Models.Entities;
+using Models.Exceptions;
 using Repositories.Contracts;
 using Services.Contracts;
+using static Models.Exceptions.NotFoundException;
 
 namespace Services
 {
@@ -27,8 +29,7 @@ namespace Services
         public async Task<BookDto> GetBookByIdAsync(int id)
         {
             var book = await GetOneBookByIdAndCheckExists(id);
-            var bookDto = _mapper.Map<BookDto>(book);
-            return bookDto;
+            return _mapper.Map<BookDto>(book);
         }
         public async Task<BookCreateDto> CreateBookAsync(BookCreateDto bookCreateDto)
         {
@@ -57,7 +58,7 @@ namespace Services
             var entity = await _repository.GetByIdAsync(id);
 
             if (entity is null)
-                throw new Exception($"{id}/Book not found!");
+                throw new BookNotFoundException(id);
 
             return entity;
         }
