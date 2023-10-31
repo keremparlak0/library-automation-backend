@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace API.Migrations
 {
     /// <inheritdoc />
     public partial class mg1 : Migration
@@ -29,7 +29,7 @@ namespace WebApi.Migrations
             migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "Id", "Author", "CratedAt", "Name" },
-                values: new object[] { 1, "Kafka", new DateTime(2023, 10, 30, 15, 54, 15, 89, DateTimeKind.Local).AddTicks(7914), "Donusum" });
+                values: new object[] { 1, "Kafka", new DateTime(2023, 10, 31, 9, 12, 54, 199, DateTimeKind.Local).AddTicks(1964), "Donusum" });
         }
 
         /// <inheritdoc />

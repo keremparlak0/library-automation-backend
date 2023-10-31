@@ -1,21 +1,22 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Models.DTOs;
 using Services.Contracts;
 
-namespace WebApi.Controllers
+namespace API.Controllers
 {
-    [Route("api/books")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class BooksController : ControllerBase
     {
         private readonly IBookService _service;
         private readonly IMapper _mapper;
-        public BookController(IMapper mapper, IBookService service)
+
+        public BooksController(IBookService service, IMapper mapper)
         {
-            _mapper = mapper;
             _service = service;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -29,20 +30,20 @@ namespace WebApi.Controllers
             {
                 return StatusCode(500, "An error occurred while processing your request.");
             }
-        } 
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {
             try
-            {  
+            {
                 return Ok(_service.GetBookByIdAsync(id));
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "An error occurred while processing your request.");
             }
-        }  
+        }
 
         //[HttpGet("first")]
         //public async Task<string> GetFirstBookName()

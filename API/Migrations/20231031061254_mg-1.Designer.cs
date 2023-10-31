@@ -9,10 +9,10 @@ using Models;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231030125415_mg-1")]
+    [Migration("20231031061254_mg-1")]
     partial class mg1
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace WebApi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -53,7 +53,7 @@ namespace WebApi.Migrations
                         {
                             Id = 1,
                             Author = "Kafka",
-                            CratedAt = new DateTime(2023, 10, 30, 15, 54, 15, 89, DateTimeKind.Local).AddTicks(7914),
+                            CratedAt = new DateTime(2023, 10, 31, 9, 12, 54, 199, DateTimeKind.Local).AddTicks(1964),
                             Name = "Donusum"
                         });
                 });

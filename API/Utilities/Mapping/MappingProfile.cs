@@ -2,7 +2,7 @@
 using Models.DTOs;
 using Models.Entities;
 
-namespace WebApi.Utilities.Mapping
+namespace API.Utilities.Mapping
 {
     public class MappingProfile : Profile
     {
