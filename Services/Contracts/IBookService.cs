@@ -7,8 +7,8 @@ namespace Services.Contracts
     {
         IEnumerable<BookDto> GetAllBooks();
         Task<BookDto> GetBookByIdAsync(int id);
-        Task<BookCreateDto> CreateBookAsync(BookCreateDto bookCreateDto);
-        Task<Book> UpdateBookAsync(int id, BookDto bookDto);
+        Task<BookCreationDto> CreateBookAsync(BookCreationDto bookCreateDto);
+        Task<Book> UpdateBookAsync(int id, BookUpdationDto bookUpdateDto);
         Task DeleteBookAsync(int id);
     }
 }

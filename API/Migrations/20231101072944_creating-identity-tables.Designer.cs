@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Models;
 
@@ -11,9 +12,11 @@ using Models;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231101072944_creating-identity-tables")]
+    partial class creatingidentitytables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,22 +50,6 @@ namespace API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "f4974bfe-4606-494d-8fe0-ae13cd580947",
-                            ConcurrencyStamp = "910f96f4-229b-4a4c-bf1d-0c6f4a980f7f",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "e3fbdf8a-4833-4134-ab87-cc8a06647cbf",
-                            ConcurrencyStamp = "79952017-02fb-49b2-b4a6-25dcf787414b",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -199,7 +186,7 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Author = "Kafka",
-                            CratedAt = new DateTime(2023, 11, 1, 10, 45, 50, 636, DateTimeKind.Local).AddTicks(62),
+                            CratedAt = new DateTime(2023, 11, 1, 10, 29, 44, 461, DateTimeKind.Local).AddTicks(2584),
                             Name = "Donusum"
                         });
                 });

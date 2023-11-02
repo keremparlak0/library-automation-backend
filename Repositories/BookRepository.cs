@@ -7,7 +7,7 @@ namespace Repositories
 {
     public class BookRepository : RepositoryBase<Book>, IBookRepository
     {
-        public BookRepository(AppDbContext context) : base(context)
+        public BookRepository(ApplicationDbContext context) : base(context)
         {
         }
 

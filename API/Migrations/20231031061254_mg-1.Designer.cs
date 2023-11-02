@@ -11,7 +11,7 @@ using Models;
 
 namespace API.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20231031061254_mg-1")]
     partial class mg1
     {

@@ -9,26 +9,22 @@ namespace API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookService _service;
-        private readonly ILogger<BooksController> _logger;
 
-        public BooksController(IBookService service, ILogger<BooksController> logger)
+        public BooksController(IBookService service)
         {
             _service = service;
-            _logger = logger;
-            _logger.LogDebug(1, "NLog injected into BooksController");
         }
 
         [HttpGet]
         public IActionResult GetAllBooks()
         {
-            _logger.LogInformation("GetAllBooks method is logged.");
             return Ok(_service.GetAllBooks());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {
-            var book = _service.GetBookByIdAsync(id);
+            var book = await _service.GetBookByIdAsync(id);
             return Ok(book);
         }
 
@@ -40,16 +36,16 @@ namespace API.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> CreateBook([FromBody] BookCreateDto bookCreateDto)
+        public async Task<IActionResult> CreateBook([FromBody] BookCreationDto bookCreateDto)
         {
             _service.CreateBookAsync(bookCreateDto);
-            return Ok();
+            return StatusCode(201);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] BookDto bookDto)
+        public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] BookUpdationDto bookUpdateDto)
         {
-            await _service.UpdateBookAsync(id, bookDto);
+            await _service.UpdateBookAsync(id, bookUpdateDto);
             return NoContent(); // 204
         }
 

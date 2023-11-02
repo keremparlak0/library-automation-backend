@@ -31,17 +31,17 @@ namespace Services
             var book = await GetOneBookByIdAndCheckExists(id);
             return _mapper.Map<BookDto>(book);
         }
-        public async Task<BookCreateDto> CreateBookAsync(BookCreateDto bookCreateDto)
+        public async Task<BookCreationDto> CreateBookAsync(BookCreationDto bookCreateDto)
         {
             var book = _mapper.Map<Book>(bookCreateDto);
             await _repository.CreateAsync(book);
 
-            return _mapper.Map<BookCreateDto>(book);
+            return _mapper.Map<BookCreationDto>(book);
         }
-        public async Task<Book> UpdateBookAsync(int id, BookDto bookDto)
+        public async Task<Book> UpdateBookAsync(int id, BookUpdationDto bookUpdateDto)
         {
             var entity = await GetOneBookByIdAndCheckExists(id);
-            entity = _mapper.Map<Book>(bookDto);
+            entity = _mapper.Map<Book>(bookUpdateDto);
             _repository.UpdateAsync(entity);
 
             return entity;

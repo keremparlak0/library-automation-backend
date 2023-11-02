@@ -10,9 +10,13 @@ namespace API.Utilities.Mapping
         {
             CreateMap<Book, BookDto>();
             CreateMap<BookDto, Book>();
-            CreateMap<Book, BookCreateDto>();
-            CreateMap<BookCreateDto, Book>();
+            CreateMap<Book, BookCreationDto>();
+            CreateMap<BookCreationDto, Book>();
+            CreateMap<Book, BookUpdationDto>();
+            CreateMap<BookUpdationDto, Book>();
             CreateMap<Book, Book>();
+
+            CreateMap<UserRegistrationDto, User>();
         }
     }
 }

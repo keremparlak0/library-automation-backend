@@ -7,9 +7,9 @@ namespace Repositories
 {
     public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : BaseEntity
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public RepositoryBase(AppDbContext context)
+        public RepositoryBase(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace Repositories
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            var entity = await Table.AsNoTracking().Where(e => e.Id.Equals(id)).SingleOrDefaultAsync();
+            var entity = await Table.Where(e => e.Id.Equals(id)).AsNoTracking().SingleOrDefaultAsync();
             return entity;
         }
         public async Task CreateAsync(TEntity entity)

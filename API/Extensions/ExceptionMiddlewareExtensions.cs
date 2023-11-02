@@ -23,7 +23,7 @@ namespace API.Extensions
                         context.Response.StatusCode = contextFeature.Error switch
                         {
                             NotFoundException => StatusCodes.Status404NotFound,
-                            _ => StatusCodes.Status500InternalServerError
+                            _ => StatusCodes.Status400BadRequest
                         };
 
                         logger.LogError("There is a problem: " + contextFeature.Error);
