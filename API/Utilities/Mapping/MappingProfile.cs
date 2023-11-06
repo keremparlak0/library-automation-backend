@@ -16,7 +16,6 @@ namespace API.Utilities.Mapping
             CreateMap<BookUpdationDto, Book>();
             CreateMap<Book, Book>();
 
-            CreateMap<UserRegistrationDto, User>();
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Models.DTOs;
 using Services.Contracts;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/books")]
     [ApiController]
     public class BooksController : ControllerBase
     {
@@ -35,6 +36,7 @@ namespace API.Controllers
         //        return bookName;
         //}
 
+        //[Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> CreateBook([FromBody] BookCreationDto bookCreateDto)
         {
@@ -42,6 +44,7 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
+        //[Authorize(Roles = "User")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] BookUpdationDto bookUpdateDto)
         {
@@ -49,6 +52,7 @@ namespace API.Controllers
             return NoContent(); // 204
         }
 
+        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook([FromRoute] int id)
         {
