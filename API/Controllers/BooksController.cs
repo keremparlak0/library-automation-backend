@@ -22,6 +22,7 @@ namespace API.Controllers
             return Ok(_service.GetAllBooks());
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {

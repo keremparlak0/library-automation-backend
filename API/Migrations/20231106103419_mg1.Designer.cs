@@ -12,8 +12,8 @@ using Models;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231106054703_mig1")]
-    partial class mig1
+    [Migration("20231106103419_mg1")]
+    partial class mg1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Author = "Kafka",
-                            CratedAt = new DateTime(2023, 11, 6, 8, 47, 3, 569, DateTimeKind.Local).AddTicks(7820),
+                            CratedAt = new DateTime(2023, 11, 6, 13, 34, 19, 623, DateTimeKind.Local).AddTicks(329),
                             Name = "Donusum"
                         });
                 });

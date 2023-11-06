@@ -1,6 +1,8 @@
 using API.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Models;
 using Models.Entities;
 using NLog;
@@ -9,6 +11,7 @@ using Repositories;
 using Repositories.Contracts;
 using Services;
 using Services.Contracts;
+using System.Text;
 
 var _logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 _logger.Debug("init main");
@@ -26,7 +29,6 @@ try
         options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"),
         b => {
             b.MigrationsAssembly("API");
-            b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
         }));
 
     #region Cors
@@ -48,16 +50,17 @@ try
     builder.Services.AddSingleton<ILoggerService, LoggerService>();
     #endregion
 
-
+    #region AutoMapper
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+    #endregion
 
     #region Logging
     builder.Logging.ClearProviders();
     builder.Logging.AddConsole();
     #endregion
 
-  
+
+
     var app = builder.Build();
 
     //Global Exception Handling

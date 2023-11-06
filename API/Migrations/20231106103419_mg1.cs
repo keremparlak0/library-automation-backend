@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class mg1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,7 +29,7 @@ namespace API.Migrations
             migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "Id", "Author", "CratedAt", "Name" },
-                values: new object[] { 1, "Kafka", new DateTime(2023, 11, 6, 8, 47, 3, 569, DateTimeKind.Local).AddTicks(7820), "Donusum" });
+                values: new object[] { 1, "Kafka", new DateTime(2023, 11, 6, 13, 34, 19, 623, DateTimeKind.Local).AddTicks(329), "Donusum" });
         }
 
         /// <inheritdoc />
