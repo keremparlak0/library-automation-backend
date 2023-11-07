@@ -22,7 +22,7 @@ namespace API.Controllers
             return Ok(_service.GetAllBooks());
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {
@@ -42,7 +42,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateBook([FromBody] BookCreationDto bookCreateDto)
         {
             _service.CreateBookAsync(bookCreateDto);
-            return StatusCode(201);
+            return StatusCode(201,new { name = bookCreateDto.Name});
         }
 
         //[Authorize(Roles = "User")]

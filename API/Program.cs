@@ -1,16 +1,16 @@
 using API.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Models;
-using Models.Entities;
 using NLog;
 using NLog.Web;
 using Repositories;
 using Repositories.Contracts;
 using Services;
 using Services.Contracts;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 var _logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -23,11 +23,21 @@ try
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey
+        } );
+        options.OperationFilter<SecurityRequirementsOperationFilter>();
+    });
 
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"),
-        b => {
+        b =>
+        {
             b.MigrationsAssembly("API");
         }));
 
@@ -59,6 +69,21 @@ try
     builder.Logging.AddConsole();
     #endregion
 
+    #region Auth-Jwt
+    builder.Services.AddAuthentication().AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration
+                    .GetSection("Authentication:Schemes:Bearer:SigningKeys:0:Value").Value))
+            };
+        });
+    builder.Services.AddHttpContextAccessor();
+    builder.Services.AddScoped<IUserService, UserService>();
+    #endregion
 
 
     var app = builder.Build();
@@ -82,7 +107,7 @@ try
 
     app.UseCors("MyAllowSpecificOrigins");
 
-    app.UseAuthentication();
+    //app.UseAuthentication(); //f8df94d5
     app.UseAuthorization();
 
     app.MapControllers();
