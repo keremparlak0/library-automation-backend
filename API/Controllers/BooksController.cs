@@ -22,7 +22,7 @@ namespace API.Controllers
             return Ok(_service.GetAllBooks());
         }
 
-        [Authorize(Roles = "Admin, User")]
+        //[Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {

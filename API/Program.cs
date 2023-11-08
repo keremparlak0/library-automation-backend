@@ -1,9 +1,11 @@
 using API.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
+using Models.Entities;
 using NLog;
 using NLog.Web;
 using Repositories;
@@ -49,7 +51,7 @@ try
             policy.WithOrigins("http://localhost:4200")
                 .AllowAnyHeader()
                 .AllowAnyOrigin()
-                .AllowAnyHeader();
+                .AllowAnyMethod();
         });
     });
     #endregion
@@ -81,8 +83,17 @@ try
                     .GetSection("Authentication:Schemes:Bearer:SigningKeys:0:Value").Value))
             };
         });
-    builder.Services.AddHttpContextAccessor();
-    builder.Services.AddScoped<IUserService, UserService>();
+
+    builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 8;
+    }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+
     #endregion
 
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Models;
 using Models.DTOs;
 using Models.Entities;
 using Services.Contracts;
@@ -16,29 +18,17 @@ namespace API.Controllers
     {
         public static User user = new User();
         private readonly IConfiguration _configuration;
-        private readonly IUserService _service;
-        public AuthController(IConfiguration configuration)
+        private readonly ApplicationDbContext _dbContext;
+        public AuthController(IConfiguration configuration, ApplicationDbContext dbContext)
         {
             _configuration = configuration;
-        }
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult GetMyName()
-        {
-            try
-            {
-                return Ok(_service.GetMyName());
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _dbContext = dbContext;
         }
 
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserDto userDto)
         {
+            
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
             user.Username = userDto.Username;
