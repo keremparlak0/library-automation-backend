@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Models.Config;
 using Models.Entities;
 using System.Security.Cryptography;
 using System.Text;
@@ -17,9 +19,12 @@ namespace Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
-            modelBuilder.Entity<Book>().HasData(new Book { Id = 1, CratedAt = DateTime.Now, Name = "Donusum", Author = "Kafka" });
 
+            modelBuilder.ApplyConfiguration(new BookConfig());
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "User", NormalizedName = "User" },
+                new IdentityRole { Name = "Admin", NormalizedName = "Admin" });
         }
     }
 }

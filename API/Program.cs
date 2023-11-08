@@ -118,7 +118,7 @@ try
 
     app.UseCors("MyAllowSpecificOrigins");
 
-    //app.UseAuthentication(); //f8df94d5
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();

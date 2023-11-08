@@ -47,6 +47,20 @@ namespace API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8c38b56c-c6f4-46e8-b1f2-10bf404cd5db",
+                            Name = "User",
+                            NormalizedName = "User"
+                        },
+                        new
+                        {
+                            Id = "e80265d0-1432-43b8-abc6-ce4e011e3205",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -174,6 +188,12 @@ namespace API.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -187,9 +207,6 @@ namespace API.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -251,8 +268,22 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Author = "Kafka",
-                            CratedAt = new DateTime(2023, 11, 8, 9, 31, 59, 933, DateTimeKind.Local).AddTicks(2024),
+                            CratedAt = new DateTime(2023, 11, 8, 11, 18, 21, 734, DateTimeKind.Local).AddTicks(2591),
                             Name = "Donusum"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Author = "Mario Puzo",
+                            CratedAt = new DateTime(2023, 11, 8, 11, 18, 21, 734, DateTimeKind.Local).AddTicks(2631),
+                            Name = "The Godfather"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Author = "Aldous Huxley",
+                            CratedAt = new DateTime(2023, 11, 8, 11, 18, 21, 734, DateTimeKind.Local).AddTicks(2637),
+                            Name = "Cesur Yeni Dunya"
                         });
                 });
 

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace API.Migrations
 {
     /// <inheritdoc />
@@ -30,8 +32,9 @@ namespace API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -173,9 +176,23 @@ namespace API.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "8c38b56c-c6f4-46e8-b1f2-10bf404cd5db", null, "User", "User" },
+                    { "e80265d0-1432-43b8-abc6-ce4e011e3205", null, "Admin", "Admin" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "Id", "Author", "CratedAt", "Name" },
-                values: new object[] { 1, "Kafka", new DateTime(2023, 11, 8, 9, 31, 59, 933, DateTimeKind.Local).AddTicks(2024), "Donusum" });
+                values: new object[,]
+                {
+                    { 1, "Kafka", new DateTime(2023, 11, 8, 11, 18, 21, 734, DateTimeKind.Local).AddTicks(2591), "Donusum" },
+                    { 2, "Mario Puzo", new DateTime(2023, 11, 8, 11, 18, 21, 734, DateTimeKind.Local).AddTicks(2631), "The Godfather" },
+                    { 3, "Aldous Huxley", new DateTime(2023, 11, 8, 11, 18, 21, 734, DateTimeKind.Local).AddTicks(2637), "Cesur Yeni Dunya" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
