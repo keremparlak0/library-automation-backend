@@ -16,13 +16,14 @@ namespace API.Controllers
             _service = service;
         }
 
+        //[Authorize(Roles = "User")]
         [HttpGet]
         public IActionResult GetAllBooks()
         {
             return Ok(_service.GetAllBooks());
         }
 
-        //[Authorize(Roles = "Admin, User")]
+        //[Authorize(Roles = "User")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {

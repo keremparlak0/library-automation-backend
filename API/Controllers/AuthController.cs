@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Models;
 using Models.DTOs;
 using Models.Entities;
+using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace API.Controllers
 {
@@ -12,19 +17,19 @@ namespace API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        public AuthController(IConfiguration configuration, UserManager<ApplicationUser> userManager)
+        public AuthController(IConfiguration configuration, UserManager<User> userManager)
         {
             _configuration = configuration;
             _userManager = userManager;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] ApplicationUserRegistrationDto userDto)
+        public async Task<IActionResult> Register([FromBody] UserRegistrationDto userDto)
         {
 
-            var applicationUser = new ApplicationUser()
+            var applicationUser = new User()
             {
                 UserName = userDto.UserName,
                 Email = userDto.Email,
@@ -41,41 +46,55 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("login")]
-        //public IActionResult Login([FromBody] AppliCationUserDto userDto)
-        //{
-        //    if (user.Username != userDto.Username)
-        //        return BadRequest("User not found");
-        //    if (!BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
-        //        return BadRequest("Wrong password");
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto userDto)
+        {
+            var user = await _userManager.FindByNameAsync(userDto.UserName);
+            if (user is null)
+                return BadRequest("User not found");
 
-        //    string token = CreateToken(user);
+            if (!await _userManager.CheckPasswordAsync(user, userDto.Password))
+                return BadRequest("Wrong password");
 
-        //    return Ok(token);
-        //}
+            string token = await CreateToken(userDto);
 
-        //private string CreateToken(AppliCationUserDto user)
-        //{
-        //    List<Claim> claims = new List<Claim>
-        //    {
-        //        new Claim(ClaimTypes.Name, user.Username),
-        //        new Claim(ClaimTypes.Role, "Admin"),
-        //        new Claim(ClaimTypes.Role, "User")
-        //    };
+            return Ok(token);
+        }
 
-        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration
-        //        .GetSection("Authentication:Schemes:Bearer:SigningKeys:0:Value").Value));
+        private async Task<string> CreateToken(UserLoginDto userDto)
+        {
+            var user = await _userManager.FindByNameAsync(userDto.UserName);
+            var jwtSettings = _configuration.GetSection("JwtSettings");
 
-        //    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            #region Claims
+            var userRoles = await _userManager.GetRolesAsync(user);
+            List<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, userDto.UserName),
+                };
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            #endregion
 
-        //    var token = new JwtSecurityToken(
-        //            claims: claims,
-        //            expires: DateTime.Now.AddDays(1),
-        //            signingCredentials: credentials
-        //        );
-        //    var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            var key = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(_configuration.GetSection("JwtSettings:secretKey").Value));
 
-        //    return jwt;
-        //}
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            await Console.Out.WriteLineAsync(jwtSettings["validIssuer"]);
+            var token = new JwtSecurityToken(
+                    issuer: jwtSettings["validIssuer"],
+                    audience: jwtSettings["validAudience"],
+                    expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
+                    claims: claims,
+                    signingCredentials: credentials
+                );
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            await _userManager.UpdateAsync(user);
+
+            return jwt;
+        }
     }
 }
