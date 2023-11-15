@@ -71,7 +71,7 @@ try
     builder.Logging.AddConsole();
     #endregion
 
-    #region MyRegion
+    #region Auth
 
     #endregion
 
