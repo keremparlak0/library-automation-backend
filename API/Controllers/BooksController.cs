@@ -16,7 +16,7 @@ namespace API.Controllers
             _service = service;
         }
 
-        //[Authorize(Roles = "User")]
+        //[Authorize]
         [HttpGet]
         public IActionResult GetAllBooks()
         {

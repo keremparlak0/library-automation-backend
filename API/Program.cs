@@ -71,31 +71,6 @@ try
     builder.Logging.AddConsole();
     #endregion
 
-    #region Auth-Jwt
-    builder.Services.AddAuthentication().AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration
-                    .GetSection("Authentication:Schemes:Bearer:SigningKeys:0:Value").Value))
-            };
-        });
-
-    builder.Services.AddIdentity<User, IdentityRole>(options =>
-    {
-        options.Password.RequireDigit = false;
-        options.Password.RequireLowercase = false;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequiredLength = 8;
-    }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
-
-    #endregion
-
 
     var app = builder.Build();
 

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Models
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -21,10 +21,6 @@ namespace Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new BookConfig());
-
-            modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Name = "User", NormalizedName = "User" },
-                new IdentityRole { Name = "Admin", NormalizedName = "Admin" });
         }
     }
 }
