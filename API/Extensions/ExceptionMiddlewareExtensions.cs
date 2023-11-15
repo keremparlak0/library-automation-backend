@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Models.ErrorModel;
 using Models.Exceptions;
 using Services;
@@ -23,7 +25,8 @@ namespace API.Extensions
                         context.Response.StatusCode = contextFeature.Error switch
                         {
                             NotFoundException => StatusCodes.Status404NotFound,
-                            _ => StatusCodes.Status400BadRequest
+                            UnauthorizedException => StatusCodes.Status401Unauthorized,
+                            _ => StatusCodes.Status500InternalServerError
                         };
 
                         logger.LogError("There is a problem: " + contextFeature.Error);
