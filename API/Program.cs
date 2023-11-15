@@ -71,6 +71,9 @@ try
     builder.Logging.AddConsole();
     #endregion
 
+    #region MyRegion
+
+    #endregion
 
     var app = builder.Build();
 
