@@ -16,14 +16,12 @@ namespace API.Controllers
             _service = service;
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult GetAllBooks()
         {
             return Ok(_service.GetAllBooks());
         }
 
-        //[Authorize(Roles = "User")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById([FromRoute] int id)
         {
@@ -31,14 +29,6 @@ namespace API.Controllers
             return Ok(book);
         }
 
-        //[HttpGet("first")]
-        //public async Task<string> GetFirstBookName()
-        //{
-        //        var bookName = await _service.
-        //        return bookName;
-        //}
-
-        //[Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> CreateBook([FromBody] BookCreationDto bookCreateDto)
         {
@@ -46,15 +36,13 @@ namespace API.Controllers
             return StatusCode(201,new { name = bookCreateDto.Name});
         }
 
-        //[Authorize(Roles = "User")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] BookUpdationDto bookUpdateDto)
         {
             await _service.UpdateBookAsync(id, bookUpdateDto);
-            return NoContent(); // 204
+            return NoContent();
         }
 
-        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook([FromRoute] int id)
         {

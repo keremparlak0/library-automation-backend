@@ -6,5 +6,6 @@ namespace Models.Entities
     {
         public int Id { get; set; }
         public DateTime CratedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }
