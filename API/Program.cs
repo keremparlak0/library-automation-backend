@@ -68,7 +68,16 @@ try
     #endregion
 
     #region Auth
-    builder.Services.AddIdentity<AppUser, AppRole>()
+    builder.Services.AddIdentity<AppUser, AppRole>(options =>
+    {
+        options.Password.RequiredLength = 3;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+
+        options.User.RequireUniqueEmail = true;
+    })
         .AddEntityFrameworkStores<ApplicationDbContext>();
     #endregion
 
