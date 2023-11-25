@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models;
+using Models.Contexts;
 using Models.Entities;
 using Repositories.Contracts;
 

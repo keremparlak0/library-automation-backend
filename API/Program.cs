@@ -1,10 +1,7 @@
 using API.Extensions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Models;
+using Models.Contexts;
 using Models.Entities;
 using NLog;
 using NLog.Web;
@@ -13,7 +10,6 @@ using Repositories.Contracts;
 using Services;
 using Services.Contracts;
 using Swashbuckle.AspNetCore.Filters;
-using System.Text;
 
 var _logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 _logger.Debug("init main");
@@ -32,7 +28,7 @@ try
             In = ParameterLocation.Header,
             Name = "Authorization",
             Type = SecuritySchemeType.ApiKey
-        } );
+        });
         options.OperationFilter<SecurityRequirementsOperationFilter>();
     });
 
@@ -72,7 +68,8 @@ try
     #endregion
 
     #region Auth
-
+    builder.Services.AddIdentity<AppUser, AppRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>();
     #endregion
 
     var app = builder.Build();
