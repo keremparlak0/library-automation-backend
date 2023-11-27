@@ -71,6 +71,8 @@ try
     #endregion
 
     #region Auth
+    builder.Services.AddScoped<IUserService, UserService>();
+
     builder.Services.AddIdentity<AppUser, AppRole>(options =>
     {
         options.Password.RequiredLength = 3;
@@ -82,6 +84,8 @@ try
         options.User.RequireUniqueEmail = true;
     })
         .AddEntityFrameworkStores<ApplicationDbContext>();
+
+    builder.Services.AddScoped<ITokenService, TokenService>();
 
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer("Admin",options =>
