@@ -1,5 +1,7 @@
 using API.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models.Contexts;
 using Models.Entities;
@@ -10,6 +12,7 @@ using Repositories.Contracts;
 using Services;
 using Services.Contracts;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text;
 
 var _logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 _logger.Debug("init main");
@@ -79,6 +82,22 @@ try
         options.User.RequireUniqueEmail = true;
     })
         .AddEntityFrameworkStores<ApplicationDbContext>();
+
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer("Admin",options =>
+        {
+            options.TokenValidationParameters = new()
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+
+                ValidAudience = builder.Configuration["Token:Audience"],
+                ValidIssuer = builder.Configuration["Token:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+            };
+        });
     #endregion
 
     var app = builder.Build();

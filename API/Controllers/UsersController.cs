@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
 using Models.Exceptions;
 using Models.DTOs;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace API.Controllers
 {
@@ -12,10 +15,12 @@ namespace API.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly IConfiguration _configuration;
+        public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -49,9 +54,32 @@ namespace API.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, userLoginDto.Password, false);
             if (result.Succeeded)
             {
-                return Ok("Giriş Yapıldı");
+                TokenDto token = CreateAccessToken(minute: 5);
+                return Ok(token);
             }
-            return Ok();
+            throw new AuthenticationErrorException();
+        }
+
+        private TokenDto CreateAccessToken(int minute)
+        {
+            TokenDto token = new();
+            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256Signature);
+
+            token.Expiration = DateTime.UtcNow.AddMinutes(minute);
+
+            JwtSecurityToken securityToken = new(
+                audience: _configuration["Token:Audience"],
+                issuer: _configuration["Token:Issuer"],
+                signingCredentials: signingCredentials,
+                expires: token.Expiration,
+                notBefore: DateTime.UtcNow
+            );
+
+            JwtSecurityTokenHandler tokenHandler = new();
+            token.AccessToken = tokenHandler.WriteToken(securityToken);
+
+            return token;
         }
     }
 }

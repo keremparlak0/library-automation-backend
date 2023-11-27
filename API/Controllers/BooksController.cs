@@ -16,6 +16,7 @@ namespace API.Controllers
             _service = service;
         }
 
+        [Authorize(AuthenticationSchemes = "Admin")]
         [HttpGet]
         public IActionResult GetAllBooks()
         {
@@ -33,7 +34,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateBook([FromBody] BookCreationDto bookCreateDto)
         {
             _service.CreateBookAsync(bookCreateDto);
-            return StatusCode(201,new { name = bookCreateDto.Name});
+            return StatusCode(201, new { name = bookCreateDto.Name });
         }
 
         [HttpPut("{id}")]
