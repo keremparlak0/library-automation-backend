@@ -27,6 +27,7 @@ namespace API.Extensions
                             NotFoundException => StatusCodes.Status404NotFound,
                             UnauthorizedException => StatusCodes.Status401Unauthorized,
                             AuthenticationErrorException => StatusCodes.Status403Forbidden,
+                            UserRegisterFailedException => StatusCodes.Status403Forbidden,
                             _ => StatusCodes.Status500InternalServerError
                         };
 
