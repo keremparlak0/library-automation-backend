@@ -1,12 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Models.Entities;
-using Models.Exceptions;
+﻿using Microsoft.AspNetCore.Mvc;
 using Models.DTOs;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using Services;
 using Services.Contracts;
 
 namespace API.Controllers

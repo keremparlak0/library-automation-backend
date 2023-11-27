@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Models.DTOs;
 using Models.Entities;
+using Models.ErrorModel;
 using Models.Exceptions;
 using Services.Contracts;
 
@@ -41,12 +42,11 @@ namespace Services
                 {
                     await Console.Out.WriteLineAsync(error.Description.ToString());
                 }
-                throw new Exception();
-                /*return new
+                throw new UserRegisterFailedException(new ErrorResponse()
                 {
-                    result = result.Errors.ToList(),
-                    statusCode = 400
-                };*/
+                    Description = result.Errors.FirstOrDefault().Description,//for now
+                    StatusCode = 403
+                });
             }
         }
 
