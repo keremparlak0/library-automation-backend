@@ -58,7 +58,7 @@ namespace Services
             var entity = await _repository.GetByIdAsync(id);
 
             if (entity is null)
-                throw new BookNotFoundException(id);
+                throw new NotFoundBookException(id);
 
             return entity;
         }

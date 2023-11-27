@@ -42,7 +42,7 @@ namespace Services
                 {
                     await Console.Out.WriteLineAsync(error.Description.ToString());
                 }
-                throw new UserRegisterFailedException(new ErrorResponse()
+                throw new UserRegistrationFailedException(new ErrorResponse()
                 {
                     Description = result.Errors.FirstOrDefault().Description,//for now
                     StatusCode = 403
@@ -53,14 +53,27 @@ namespace Services
         public async Task<TokenDto> LoginAsync(UserLoginDto userLoginDto)
         {
             var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-            if (user == null) throw new UserNotFoundException(userLoginDto.Email);
+            if (user == null) throw new NotFoundUserException();
+
             var result = await _signInManager.CheckPasswordSignInAsync(user, userLoginDto.Password, false);
             if (result.Succeeded)
             {
-                TokenDto token = _tokenService.CreateSecurityToken(minute: 5);
+                TokenDto token = _tokenService.CreateSecurityToken(second: 45);
+                UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 30);
                 return token;
             }
             throw new AuthenticationErrorException();
+        }
+
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime AccessTokenDateTime, int refreshTokenLifeTime)
+        {
+            if (user is not null)
+            {
+                user.Refreshtoken = refreshToken;
+                user.RefreshtokenEndDate = AccessTokenDateTime.AddSeconds(refreshTokenLifeTime);
+                await _userManager.UpdateAsync(user);
+            }
+            throw new NotFoundUserException();
         }
     }
 }

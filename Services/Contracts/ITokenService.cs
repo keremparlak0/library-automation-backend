@@ -4,6 +4,7 @@ namespace Services.Contracts
 {
     public interface ITokenService
     {
-        TokenDto CreateSecurityToken(int minute);
+        TokenDto CreateSecurityToken(int second);
+        string CreateRefreshToken();
     }
 }
