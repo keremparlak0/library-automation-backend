@@ -6,6 +6,8 @@ using Models.DTOs;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Services;
+using Services.Contracts;
 
 namespace API.Controllers
 {
@@ -13,73 +15,23 @@ namespace API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly IConfiguration _configuration;
-        public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration)
+        private readonly IUserService _userService;
+
+        public UsersController(IUserService userService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _configuration = configuration;
+            _userService = userService;
         }
 
         [HttpPost]
         public async Task<ActionResult<object>> CreateUserAsync([FromBody] UserRegisterDto userRegisterDto)
         {
-            var result = await _userManager.CreateAsync(new AppUser()
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserName = userRegisterDto.UserName,
-                Email = userRegisterDto.Email,
-                FirstName = userRegisterDto.FirstName,
-                LastName = userRegisterDto.LastName
-            }, userRegisterDto.Password);
-            if (result.Succeeded)
-                return StatusCode(201);
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    await Console.Out.WriteLineAsync(error.Description.ToString());
-                }
-                return result.Errors.ToList();
-            }
-
+            return Created("", await _userService.CreateUserAsync(userRegisterDto));
         }
+
         [HttpPost("[action]")]
         public async Task<ActionResult> Login([FromBody] UserLoginDto userLoginDto)
         {
-            var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-            if (user == null) throw new UserNotFoundException(userLoginDto.Email);
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userLoginDto.Password, false);
-            if (result.Succeeded)
-            {
-                TokenDto token = CreateAccessToken(minute: 5);
-                return Ok(token);
-            }
-            throw new AuthenticationErrorException();
-        }
-
-        private TokenDto CreateAccessToken(int minute)
-        {
-            TokenDto token = new();
-            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
-            SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256Signature);
-
-            token.Expiration = DateTime.UtcNow.AddMinutes(minute);
-
-            JwtSecurityToken securityToken = new(
-                audience: _configuration["Token:Audience"],
-                issuer: _configuration["Token:Issuer"],
-                signingCredentials: signingCredentials,
-                expires: token.Expiration,
-                notBefore: DateTime.UtcNow
-            );
-
-            JwtSecurityTokenHandler tokenHandler = new();
-            token.AccessToken = tokenHandler.WriteToken(securityToken);
-
-            return token;
+            return Ok(await _userService.LoginAsync(userLoginDto));
         }
     }
 }
