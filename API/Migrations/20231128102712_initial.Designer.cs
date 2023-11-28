@@ -12,8 +12,8 @@ using Models.Contexts;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231127131026_mg3")]
-    partial class mg3
+    [Migration("20231128102712_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -269,25 +269,25 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Author = "Kafka",
-                            CratedAt = new DateTime(2023, 11, 27, 16, 10, 26, 683, DateTimeKind.Local).AddTicks(2671),
+                            CratedAt = new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4648),
                             Name = "Donusum",
-                            UpdatedAt = new DateTime(2023, 11, 27, 16, 10, 26, 683, DateTimeKind.Local).AddTicks(2691)
+                            UpdatedAt = new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4669)
                         },
                         new
                         {
                             Id = 2,
                             Author = "Mario Puzo",
-                            CratedAt = new DateTime(2023, 11, 27, 16, 10, 26, 683, DateTimeKind.Local).AddTicks(2721),
+                            CratedAt = new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4707),
                             Name = "The Godfather",
-                            UpdatedAt = new DateTime(2023, 11, 27, 16, 10, 26, 683, DateTimeKind.Local).AddTicks(2722)
+                            UpdatedAt = new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4709)
                         },
                         new
                         {
                             Id = 3,
                             Author = "Aldous Huxley",
-                            CratedAt = new DateTime(2023, 11, 27, 16, 10, 26, 683, DateTimeKind.Local).AddTicks(2726),
+                            CratedAt = new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4714),
                             Name = "Cesur Yeni Dunya",
-                            UpdatedAt = new DateTime(2023, 11, 27, 16, 10, 26, 683, DateTimeKind.Local).AddTicks(2727)
+                            UpdatedAt = new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4715)
                         });
                 });
 

@@ -26,5 +26,11 @@ namespace API.Controllers
         {
             return Ok(await _userService.LoginAsync(userLoginDto));
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> LoginWithRefreshToken([FromForm] RefreshTokenDto refreshTokenDto)
+        {
+            return Ok(await _userService.RefreshLoginAsync(refreshTokenDto.ToString()));
+        }
     }
 }
