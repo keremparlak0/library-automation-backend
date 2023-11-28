@@ -6,7 +6,7 @@ namespace Models.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Refreshtoken { get; set; }
-        public DateTime RefreshtokenEndDate { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenEndDate { get; set; }
     }
 }

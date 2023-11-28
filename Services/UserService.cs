@@ -22,7 +22,7 @@ namespace Services
 
         public async Task<object> CreateUserAsync(UserRegisterDto userRegisterDto)
         {
-            var result = await _userManager.CreateAsync(new AppUser()
+            IdentityResult result = await _userManager.CreateAsync(new AppUser()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = userRegisterDto.UserName,
@@ -32,9 +32,10 @@ namespace Services
             }, userRegisterDto.Password);
 
             if (result.Succeeded)
-                return new { 
+                return new
+                {
                     message = $"The user was created with ${userRegisterDto.Email}.",
-                    statusCode = 201                
+                    statusCode = 201
                 };
             else
             {
@@ -52,28 +53,46 @@ namespace Services
 
         public async Task<TokenDto> LoginAsync(UserLoginDto userLoginDto)
         {
-            var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
+            AppUser user = await _userManager.FindByEmailAsync(userLoginDto.Email);
             if (user == null) throw new NotFoundUserException();
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userLoginDto.Password, false);
+            SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, userLoginDto.Password, false);
             if (result.Succeeded)
             {
-                TokenDto token = _tokenService.CreateSecurityToken(second: 45);
-                UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 30);
+                TokenDto token = _tokenService.CreateSecurityToken(second: 20);
+
+                #region UpdateRefreshToken
+                user.RefreshToken = token.RefreshToken;
+                user.RefreshTokenEndDate = token.Expiration.AddSeconds(30);
+                await _userManager.UpdateAsync(user);
+                #endregion
+
                 return token;
             }
             throw new AuthenticationErrorException();
         }
 
-        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime AccessTokenDateTime, int refreshTokenLifeTime)
+        public async Task<TokenDto> RefreshLoginAsync(string refreshToken)
         {
-            if (user is not null)
+            AppUser? user = _userManager.Users.FirstOrDefault(u => u.RefreshToken == refreshToken);
+            if (user != null && user.RefreshTokenEndDate > DateTime.UtcNow)
             {
-                user.Refreshtoken = refreshToken;
-                user.RefreshtokenEndDate = AccessTokenDateTime.AddSeconds(refreshTokenLifeTime);
+                TokenDto token = _tokenService.CreateSecurityToken(second: 30);
+
+                #region UpdateRefreshToken
+                user.RefreshToken = token.RefreshToken;
+                user.RefreshTokenEndDate = token.Expiration.AddSeconds(30);
                 await _userManager.UpdateAsync(user);
+                #endregion
+
+                return new TokenDto
+                {
+                    AccessToken = token.AccessToken
+                };
             }
-            throw new NotFoundUserException();
+            else
+                throw new NotFoundUserException();
+
         }
     }
 }

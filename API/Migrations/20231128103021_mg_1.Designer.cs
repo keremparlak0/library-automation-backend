@@ -12,8 +12,8 @@ using Models.Contexts;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231125160633_mg2")]
-    partial class mg2
+    [Migration("20231128103021_mg_1")]
+    partial class mg_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,6 +208,12 @@ namespace API.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Refreshtoken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshtokenEndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -262,25 +268,25 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Author = "Kafka",
-                            CratedAt = new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9165),
+                            CratedAt = new DateTime(2023, 11, 28, 13, 30, 20, 927, DateTimeKind.Local).AddTicks(9879),
                             Name = "Donusum",
-                            UpdatedAt = new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9188)
+                            UpdatedAt = new DateTime(2023, 11, 28, 13, 30, 20, 927, DateTimeKind.Local).AddTicks(9896)
                         },
                         new
                         {
                             Id = 2,
                             Author = "Mario Puzo",
-                            CratedAt = new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9224),
+                            CratedAt = new DateTime(2023, 11, 28, 13, 30, 20, 927, DateTimeKind.Local).AddTicks(9916),
                             Name = "The Godfather",
-                            UpdatedAt = new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9226)
+                            UpdatedAt = new DateTime(2023, 11, 28, 13, 30, 20, 927, DateTimeKind.Local).AddTicks(9917)
                         },
                         new
                         {
                             Id = 3,
                             Author = "Aldous Huxley",
-                            CratedAt = new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9233),
+                            CratedAt = new DateTime(2023, 11, 28, 13, 30, 20, 927, DateTimeKind.Local).AddTicks(9920),
                             Name = "Cesur Yeni Dunya",
-                            UpdatedAt = new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9236)
+                            UpdatedAt = new DateTime(2023, 11, 28, 13, 30, 20, 927, DateTimeKind.Local).AddTicks(9921)
                         });
                 });
 

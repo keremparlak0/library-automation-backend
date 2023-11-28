@@ -7,6 +7,6 @@ namespace Services.Contracts
     {
         Task<object> CreateUserAsync(UserRegisterDto userRegisterDto);
         Task<TokenDto> LoginAsync(UserLoginDto userLoginDto);
-        Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDateTime, int addOnAccessTokenDate);
+        Task<TokenDto> RefreshLoginAsync(string refreshToken);
     }
 }

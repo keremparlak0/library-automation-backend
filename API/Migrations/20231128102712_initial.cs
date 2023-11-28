@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class mg2 : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,8 +35,10 @@ namespace API.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Refreshtoken = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefreshtokenEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -50,6 +54,22 @@ namespace API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CratedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,26 +178,15 @@ namespace API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "Books",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "CratedAt", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9165), new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9188) });
-
-            migrationBuilder.UpdateData(
-                table: "Books",
-                keyColumn: "Id",
-                keyValue: 2,
-                columns: new[] { "CratedAt", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9224), new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9226) });
-
-            migrationBuilder.UpdateData(
-                table: "Books",
-                keyColumn: "Id",
-                keyValue: 3,
-                columns: new[] { "CratedAt", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9233), new DateTime(2023, 11, 25, 19, 6, 33, 794, DateTimeKind.Local).AddTicks(9236) });
+                columns: new[] { "Id", "Author", "CratedAt", "Name", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, "Kafka", new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4648), "Donusum", new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4669) },
+                    { 2, "Mario Puzo", new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4707), "The Godfather", new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4709) },
+                    { 3, "Aldous Huxley", new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4714), "Cesur Yeni Dunya", new DateTime(2023, 11, 28, 13, 27, 12, 267, DateTimeKind.Local).AddTicks(4715) }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -238,31 +247,13 @@ namespace API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Books");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.UpdateData(
-                table: "Books",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "CratedAt", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 11, 24, 15, 49, 43, 828, DateTimeKind.Local).AddTicks(1303), new DateTime(2023, 11, 24, 15, 49, 43, 828, DateTimeKind.Local).AddTicks(1326) });
-
-            migrationBuilder.UpdateData(
-                table: "Books",
-                keyColumn: "Id",
-                keyValue: 2,
-                columns: new[] { "CratedAt", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 11, 24, 15, 49, 43, 828, DateTimeKind.Local).AddTicks(1350), new DateTime(2023, 11, 24, 15, 49, 43, 828, DateTimeKind.Local).AddTicks(1352) });
-
-            migrationBuilder.UpdateData(
-                table: "Books",
-                keyColumn: "Id",
-                keyValue: 3,
-                columns: new[] { "CratedAt", "UpdatedAt" },
-                values: new object[] { new DateTime(2023, 11, 24, 15, 49, 43, 828, DateTimeKind.Local).AddTicks(1355), new DateTime(2023, 11, 24, 15, 49, 43, 828, DateTimeKind.Local).AddTicks(1356) });
         }
     }
 }
