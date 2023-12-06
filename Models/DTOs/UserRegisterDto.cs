@@ -18,6 +18,8 @@ namespace Models.DTOs
 
         [DefaultValue("1233210")]
         public string Password { get; set; }
+        [DefaultValue("online")]
+        public string Status { get; set; }
 
     }
 }

@@ -6,7 +6,8 @@ namespace Services.Contracts
     public interface IUserService
     {
         Task<object> CreateUserAsync(UserRegisterDto userRegisterDto);
-        Task<TokenDto> LoginAsync(UserLoginDto userLoginDto);
+        Task<AppUser> GetUserByIdAsync(string id);
+        Task<object> LoginAsync(UserLoginDto userLoginDto);
         Task<TokenDto> RefreshLoginAsync(string refreshToken);
     }
 }

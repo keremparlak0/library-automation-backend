@@ -28,7 +28,8 @@ namespace Services
                 UserName = userRegisterDto.UserName,
                 Email = userRegisterDto.Email,
                 FirstName = userRegisterDto.FirstName,
-                LastName = userRegisterDto.LastName
+                LastName = userRegisterDto.LastName,
+                Status = userRegisterDto.Status
             }, userRegisterDto.Password);
 
             if (result.Succeeded)
@@ -51,7 +52,15 @@ namespace Services
             }
         }
 
-        public async Task<TokenDto> LoginAsync(UserLoginDto userLoginDto)
+        public async Task<AppUser> GetUserByIdAsync(string id)
+        {
+            AppUser user = await _userManager.FindByIdAsync(id);
+            if (user == null) throw new NotFoundUserException();
+            
+            return user;
+        }
+
+        public async Task<object> LoginAsync(UserLoginDto userLoginDto)
         {
             AppUser user = await _userManager.FindByEmailAsync(userLoginDto.Email);
             if (user == null) throw new NotFoundUserException();
@@ -67,7 +76,18 @@ namespace Services
                 await _userManager.UpdateAsync(user);
                 #endregion
 
-                return token;
+                return new
+                {
+                    accessToken = $"{token.AccessToken}",
+                    tokenType = "bearer",
+                    user = new { 
+                        avatar = user.Avatar,
+                        email = user.Email,
+                        id = user.Id,
+                        name = user.UserName,
+                        status = user.Status
+                    }
+                };
             }
             throw new AuthenticationErrorException();
         }
@@ -85,6 +105,7 @@ namespace Services
                 await _userManager.UpdateAsync(user);
                 #endregion
 
+                await Console.Out.WriteLineAsync(refreshToken + "\n" + user.RefreshToken + " <=> " + user.RefreshTokenEndDate);
                 return new TokenDto
                 {
                     AccessToken = token.AccessToken

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Models.Contexts;
 
@@ -11,9 +12,11 @@ using Models.Contexts;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231205132418_mg_3")]
+    partial class mg_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,10 +220,6 @@ namespace API.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -272,25 +271,25 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Author = "Kafka",
-                            CratedAt = new DateTime(2023, 12, 6, 20, 55, 48, 250, DateTimeKind.Local).AddTicks(8464),
+                            CratedAt = new DateTime(2023, 12, 5, 16, 24, 18, 190, DateTimeKind.Local).AddTicks(7541),
                             Name = "Donusum",
-                            UpdatedAt = new DateTime(2023, 12, 6, 20, 55, 48, 250, DateTimeKind.Local).AddTicks(8485)
+                            UpdatedAt = new DateTime(2023, 12, 5, 16, 24, 18, 190, DateTimeKind.Local).AddTicks(7560)
                         },
                         new
                         {
                             Id = 2,
                             Author = "Mario Puzo",
-                            CratedAt = new DateTime(2023, 12, 6, 20, 55, 48, 250, DateTimeKind.Local).AddTicks(8512),
+                            CratedAt = new DateTime(2023, 12, 5, 16, 24, 18, 190, DateTimeKind.Local).AddTicks(7585),
                             Name = "The Godfather",
-                            UpdatedAt = new DateTime(2023, 12, 6, 20, 55, 48, 250, DateTimeKind.Local).AddTicks(8513)
+                            UpdatedAt = new DateTime(2023, 12, 5, 16, 24, 18, 190, DateTimeKind.Local).AddTicks(7587)
                         },
                         new
                         {
                             Id = 3,
                             Author = "Aldous Huxley",
-                            CratedAt = new DateTime(2023, 12, 6, 20, 55, 48, 250, DateTimeKind.Local).AddTicks(8516),
+                            CratedAt = new DateTime(2023, 12, 5, 16, 24, 18, 190, DateTimeKind.Local).AddTicks(7592),
                             Name = "Cesur Yeni Dunya",
-                            UpdatedAt = new DateTime(2023, 12, 6, 20, 55, 48, 250, DateTimeKind.Local).AddTicks(8517)
+                            UpdatedAt = new DateTime(2023, 12, 5, 16, 24, 18, 190, DateTimeKind.Local).AddTicks(7593)
                         });
                 });
 
