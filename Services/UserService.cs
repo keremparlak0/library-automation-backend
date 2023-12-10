@@ -56,7 +56,7 @@ namespace Services
         {
             AppUser user = await _userManager.FindByIdAsync(id);
             if (user == null) throw new NotFoundUserException();
-            
+
             return user;
         }
 
@@ -72,15 +72,17 @@ namespace Services
 
                 #region UpdateRefreshToken
                 user.RefreshToken = token.RefreshToken;
-                user.RefreshTokenEndDate = token.Expiration.AddSeconds(30);
+                user.RefreshTokenEndDate = token.Expiration.AddHours(1);
                 await _userManager.UpdateAsync(user);
                 #endregion
 
                 return new
                 {
                     accessToken = $"{token.AccessToken}",
+                    refreshToken = token.RefreshToken,
                     tokenType = "bearer",
-                    user = new { 
+                    user = new
+                    {
                         avatar = user.Avatar,
                         email = user.Email,
                         id = user.Id,
