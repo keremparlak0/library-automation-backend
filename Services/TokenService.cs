@@ -25,7 +25,7 @@ namespace Services
             return Convert.ToBase64String(number);
 
         }
-
+    
         public TokenDto CreateSecurityToken(int second)
         {
             TokenDto token = new();

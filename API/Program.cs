@@ -105,6 +105,8 @@ try
         });
     #endregion
 
+    builder.Services.AddScoped<IFileService, FileService>();
+
     var app = builder.Build();
 
     //Global Exception Handling

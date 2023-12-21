@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models.DTOs;
 using Models.Entities;
+using Models.RequestModels.File;
 using Models.ViewModel;
 using Services.Contracts;
 
@@ -11,10 +12,12 @@ namespace API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IFileService _fileService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IFileService fileService)
         {
             _userService = userService;
+            _fileService = fileService;
         }
 
         [HttpGet]
@@ -49,6 +52,14 @@ namespace API.Controllers
         public async Task<ActionResult> LoginWithRefreshToken([FromForm] RefreshTokenDto refreshTokenDto)
         {
             return Ok(await _userService.RefreshLoginAsync(refreshTokenDto.RefreshToken));
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult Post([FromBody] PostRM model)
+        {
+            //_fileService.FileFromBase64(model.Base64, model.FileName, model.);
+
+            return Ok(model);
         }
     }
 }
